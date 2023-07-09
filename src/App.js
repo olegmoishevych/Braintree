@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import BraintreePayment from "./Braintree";
+import CancelSubscription from "./CancelSubscription";
+import {ChakraProvider} from "@chakra-ui/react";
+import React from "react";
+import UpdateSubscription from "./Update";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <ChakraProvider>
+            <div className="App">
+                <Router>
+                    <Routes>
+                        <Route path="/subscribe" element={<BraintreePayment />} />
+                        <Route path="/cancel" element={<CancelSubscription />} />
+                        <Route path="/update" element={<UpdateSubscription />} />
+                    </Routes>
+                </Router>
+            </div>
+        </ChakraProvider>
+    );
 }
 
 export default App;
