@@ -3,7 +3,7 @@ import { useToast } from "@chakra-ui/react";
 import axios from 'axios';
 import braintree from 'braintree-web-drop-in';
 
-const Checkout = () => {
+const Authorize = () => {
     const toast = useToast();
     const [dropinInstance, setDropinInstance] = useState(null);
 
@@ -12,7 +12,6 @@ const Checkout = () => {
             try {
                 const response = await axios.get('http://localhost:3000/braintree/token');
                 const clientToken = response.data.data;
-                console.log("Received Token: ", clientToken);
 
                 const instance = await braintree.create({
                     authorization: clientToken,
@@ -35,16 +34,15 @@ const Checkout = () => {
 
         try {
             const payload = await dropinInstance.requestPaymentMethod();
-            const response = await axios.post('http://localhost:3000/braintree/checkout', {
+            const response = await axios.post('http://localhost:3000/braintree/authorize', {
                 nonce: payload.nonce,
-                amount: '10.00' // Здесь вы указываете сумму платежа
+                amount: '1000.00', // Здесь вы указываете сумму авторизации
+                userId: '123' // Идентификатор пользователя
             });
-
-            console.log('Checkout response:', response.data);
 
             toast({
                 title: "Success.",
-                description: "The payment has been made successfully.",
+                description: "The funds have been authorized.",
                 status: "success",
                 duration: 5000,
                 isClosable: true,
@@ -52,7 +50,7 @@ const Checkout = () => {
         } catch (error) {
             toast({
                 title: "An error occurred.",
-                description: "Unable to make the payment.",
+                description: "Unable to authorize the funds.",
                 status: "error",
                 duration: 5000,
                 isClosable: true,
@@ -64,9 +62,9 @@ const Checkout = () => {
     return (
         <div>
             <div id="dropin-container"></div>
-            <button id="submit-button" onClick={handleButtonClick}>Checkout</button>
+            <button onClick={handleButtonClick}>Authorize</button>
         </div>
     );
 };
 
-export default Checkout;
+export default Authorize;
