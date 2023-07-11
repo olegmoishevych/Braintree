@@ -4,6 +4,7 @@ import CancelSubscription from "./CancelSubscription";
 import {ChakraProvider} from "@chakra-ui/react";
 import React from "react";
 import UpdateSubscription from "./Update";
+import Checkout from "./Checkout";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                         <Route path="/subscribe" element={<BraintreePayment />} />
                         <Route path="/cancel" element={<CancelSubscription />} />
                         <Route path="/update" element={<UpdateSubscription />} />
+                        <Route path="/checkout" element={<Checkout />} />
                     </Routes>
                 </Router>
             </div>
