@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import BraintreePayment from "./Braintree";
 import CancelSubscription from "./CancelSubscription";
@@ -9,6 +10,19 @@ import Authorize from "./Authorize";
 import Capture from "./Capture";
 
 function App() {
+    useEffect(() => {
+        const eventSource = new EventSource('http://localhost:3000/sse/notify');
+        eventSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log(data);
+            alert('Received a new job: ' + JSON.stringify(data));
+        };
+
+        return () => {
+            eventSource.close();
+        };
+    }, []);
+
     return (
         <ChakraProvider>
             <div className="App">
