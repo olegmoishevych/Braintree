@@ -8,18 +8,20 @@ import UpdateSubscription from "./Update";
 import Checkout from "./Checkout";
 import Authorize from "./Authorize";
 import Capture from "./Capture";
+import { io } from "socket.io-client";
+import ChatComponent from "./Chat";
 
 function App() {
     useEffect(() => {
-        const eventSource = new EventSource('http://localhost:3000/sse/notify');
-        eventSource.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            console.log(data);
-            alert('Received a new job: ' + JSON.stringify(data));
-        };
+        const socket = io('http://localhost:3000'); // замените на адрес вашего сервера
+
+        socket.on('createMessage', (message) => {
+            console.log('Received a new message:', message);
+            alert('Received a new message: ' + JSON.stringify(message));
+        });
 
         return () => {
-            eventSource.close();
+            socket.disconnect();
         };
     }, []);
 
@@ -34,6 +36,7 @@ function App() {
                         <Route path="/checkout" element={<Checkout />} />
                         <Route path="/authorize" element={<Authorize />} />
                         <Route path="/capture" element={<Capture />} />
+                        <Route path="/chat" element={<ChatComponent />} />
                     </Routes>
                 </Router>
             </div>
