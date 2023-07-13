@@ -8,24 +8,11 @@ import UpdateSubscription from "./Update";
 import Checkout from "./Checkout";
 import Authorize from "./Authorize";
 import Capture from "./Capture";
-import { io } from "socket.io-client";
 import ChatComponent from "./Chat";
 import CreateJob from "./Job";
 import Chat from "./Chat";
 
 function App() {
-    // useEffect(() => {
-    //     const socket = io('http://localhost:3000'); // замените на адрес вашего сервера
-    //
-    //     socket.on('createMessage', (message) => {
-    //         console.log('Received a new message:', message);
-    //         alert('Received a new message: ' + JSON.stringify(message));
-    //     });
-    //
-    //     return () => {
-    //         socket.disconnect();
-    //     };
-    // }, []);
 
     return (
         <ChakraProvider>
