@@ -14,7 +14,7 @@ import Chat from "./Chat";
 
 function App() {
 
-    const professionalId = '64b53c163e2b3231e6a345c5';
+    const professionalId = '64b57b67ff9295c01a0051ce';
 
     useEffect(() => {
         const eventSource = new EventSource(`http://localhost:3000/sse/notify/${professionalId}`);
@@ -23,7 +23,7 @@ function App() {
 
             // проверяем, есть ли нужные данные в сообщении
             if(!data.ping) {
-                alert(`${data.message}. Job ID: ${data.jobId}`);
+                alert(`You have new offer`);
             }
 
         };
@@ -31,7 +31,7 @@ function App() {
         return () => {
             eventSource.close();
         };
-    }, []);
+    }, [professionalId]);
 
 
     return (
