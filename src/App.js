@@ -14,6 +14,26 @@ import Chat from "./Chat";
 
 function App() {
 
+    const professionalId = '64b53c163e2b3231e6a345c5';
+
+    useEffect(() => {
+        const eventSource = new EventSource(`http://localhost:3000/sse/notify/${professionalId}`);
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            // проверяем, есть ли нужные данные в сообщении
+            if(!data.ping) {
+                alert(`${data.message}. Job ID: ${data.jobId}`);
+            }
+
+        };
+
+        return () => {
+            eventSource.close();
+        };
+    }, []);
+
+
     return (
         <ChakraProvider>
             <div className="App">
