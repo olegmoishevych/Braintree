@@ -5,13 +5,14 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Popover from '@material-ui/core/Popover';
 import axios from 'axios';
 
-const NotificationPopover = ( ) => {
+const NotificationPopover = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [notifications, setNotifications] = useState([]);
     const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        setUnreadNotificationsCount(0); // Сбросить счетчик непрочитанных уведомлений при открытии popover
     };
 
     const handleClose = () => {
@@ -21,15 +22,17 @@ const NotificationPopover = ( ) => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    const professionalId = '64b6b1825d535393c0a3f4db';
+    const professionalId = '64b6e78bcd25f291eb94b1d9';
 
     useEffect(() => {
-        const eventSource = new EventSource(`http://localhost:3000/sse/notify/${professionalId}`);
+        const eventSource = new EventSource(
+            `http://localhost:3000/sse/notify/${professionalId}`
+        );
         eventSource.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (!data.ping) {
-                setUnreadNotificationsCount(count => count + 1);
-                setNotifications(prevState => [...prevState, data]); // this line is changed
+                setUnreadNotificationsCount((count) => count + 1);
+                setNotifications((prevState) => [data, ...prevState]); // Обновление списка уведомлений, чтобы новые уведомления отображались в начале списка
             }
         };
         return () => {
@@ -38,8 +41,9 @@ const NotificationPopover = ( ) => {
     }, [professionalId]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/notifications/all/${professionalId}`)
-            .then(response => {
+        axios
+            .get(`http://localhost:3000/notifications/all/${professionalId}`)
+            .then((response) => {
                 setNotifications(response.data);
             });
     }, [professionalId]);
@@ -67,10 +71,15 @@ const NotificationPopover = ( ) => {
             >
                 <div>
                     {notifications.map((notification, index) => (
-                        notification.messages && notification.messages.length > 0 &&
-                        <div key={index}>{notification.messages[0]?.text}</div>
+                        notification.messages &&
+                        notification.messages.length > 0 && (
+                            <div key={index}>
+                                {notification.messages.map((message) => (
+                                    <div key={message._id}>{message.text}</div>
+                                ))}
+                            </div>
+                        )
                     ))}
-
                 </div>
             </Popover>
         </div>
