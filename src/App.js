@@ -11,27 +11,28 @@ import Capture from "./Capture";
 import ChatComponent from "./Chat";
 import CreateJob from "./Job";
 import Chat from "./Chat";
+import NotificationBadge from "./Notification";
 
 function App() {
 
-    const professionalId = '64b57b67ff9295c01a0051ce';
-
-    useEffect(() => {
-        const eventSource = new EventSource(`http://localhost:3000/sse/notify/${professionalId}`);
-        eventSource.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-
-            // проверяем, есть ли нужные данные в сообщении
-            if(!data.ping) {
-                alert(`You have new offer`);
-            }
-
-        };
-
-        return () => {
-            eventSource.close();
-        };
-    }, [professionalId]);
+    // const professionalId = '64b6b17e5d535393c0a3f4d0';
+    //
+    // useEffect(() => {
+    //     const eventSource = new EventSource(`http://localhost:3000/sse/notify/${professionalId}`);
+    //     eventSource.onmessage = (event) => {
+    //         const data = JSON.parse(event.data);
+    //
+    //         // проверяем, есть ли нужные данные в сообщении
+    //         if(!data.ping) {
+    //             alert(`You have new offer`);
+    //         }
+    //
+    //     };
+    //
+    //     return () => {
+    //         eventSource.close();
+    //     };
+    // }, [professionalId]);
 
 
     return (
@@ -40,6 +41,7 @@ function App() {
                 <Router>
                     <Routes>
                         <Route path="/subscribe" element={<BraintreePayment />} />
+                        <Route path="/notification" element={<NotificationBadge/>} />
                         <Route path="/cancel" element={<CancelSubscription />} />
                         <Route path="/update" element={<UpdateSubscription />} />
                         <Route path="/checkout" element={<Checkout />} />
