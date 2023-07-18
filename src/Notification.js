@@ -12,7 +12,6 @@ const NotificationPopover = () => {
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-        setUnreadNotificationsCount(0); // Сбросить счетчик непрочитанных уведомлений при открытии popover
     };
 
     const handleClose = () => {
@@ -29,10 +28,9 @@ const NotificationPopover = () => {
             `http://localhost:3000/sse/notify/${professionalId}`
         );
         eventSource.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (!data.ping) {
-                setUnreadNotificationsCount((count) => count + 1);
-                setNotifications((prevState) => [data, ...prevState]); // Обновление списка уведомлений, чтобы новые уведомления отображались в начале списка
+            const newUnreadCount = Number(event.data);
+            if (!isNaN(newUnreadCount)) {
+                setUnreadNotificationsCount(newUnreadCount);
             }
         };
         return () => {
@@ -41,10 +39,20 @@ const NotificationPopover = () => {
     }, [professionalId]);
 
     useEffect(() => {
+        // Fetching all notifications
         axios
             .get(`http://localhost:3000/notifications/all/${professionalId}`)
             .then((response) => {
                 setNotifications(response.data);
+            });
+        // Fetching unread notifications count
+        axios
+            .get(`http://localhost:3000/notifications/all/unread/${professionalId}`)
+            .then((response) => {
+                const initialUnreadCount = Number(response.data);
+                if (!isNaN(initialUnreadCount)) {
+                    setUnreadNotificationsCount(initialUnreadCount);
+                }
             });
     }, [professionalId]);
 
