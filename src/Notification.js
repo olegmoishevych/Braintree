@@ -21,7 +21,7 @@ const NotificationPopover = () => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    const professionalId = '64b6e78bcd25f291eb94b1d9';
+    const professionalId = '64b82196f9d8605e855bb649';
 
     useEffect(() => {
         const eventSource = new EventSource(

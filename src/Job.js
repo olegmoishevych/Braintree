@@ -9,8 +9,8 @@ function CreateJob() {
         startTime: '03:00:00',
         endTime: '04:30:00',
         hourlyRate: '150$',
-        professionalID: '64ad406c075804f77a3e7895',
-        status: 'pending'
+        professionalID: '64b8248e048d9ba29c5978c4',
+        status: 'Accepted'
     });
 
     const handleChange = e => {
@@ -22,7 +22,7 @@ function CreateJob() {
     const handleSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:3000/jobs/64ac2209ac37f55713af3016', jobData);
+            const res = await axios.post('http://localhost:3000/jobs/64b82196f9d8605e855bb649', jobData);
             console.log(res.data);
             // Убедитесь, что clientID, professionalID и _id (jobId) доступны в ответе
             if (res.data && res.data.clientID && res.data.professionalID && res.data._id) {
