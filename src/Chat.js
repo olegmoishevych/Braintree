@@ -12,7 +12,6 @@ function ChatComponent() {
     useEffect(() => {
         const socket = io('http://localhost:3000');
         setSocket(socket);
-
         socket.on('newMessage', (message) => {
             setMessages(messages => [...messages, message]);
         });
