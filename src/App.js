@@ -32,8 +32,6 @@ function App() {
     //         eventSource.close();
     //     };
     // }, [professionalId]);
-
-
     return (
         <ChakraProvider>
             <div className="App">
