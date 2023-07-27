@@ -23,7 +23,7 @@ function CreateJob() {
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:3000/jobs/64b9469e04d486302b7e7616', jobData);
-            console.log(res.data);
+            // console.log(res.data);
             // Убедитесь, что clientID, professionalID и _id (jobId) доступны в ответе
             if (res.data && res.data.clientID && res.data.professionalID && res.data._id) {
                 navigate(`/chat/${res.data.clientID}/${res.data.professionalID}/${res.data._id}`);
