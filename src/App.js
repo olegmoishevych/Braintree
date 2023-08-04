@@ -13,7 +13,6 @@ import Chat from "./Chat";
 import NotificationBadge from "./Notification";
 
 function App() {
-    console.log('res')
     // const professionalId = '64b6b17e5d535393c0a3f4d0';
     //
     // useEffect(() => {
