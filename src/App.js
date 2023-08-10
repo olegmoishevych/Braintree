@@ -11,6 +11,7 @@ import ChatComponent from "./Chat";
 import CreateJob from "./Job";
 import Chat from "./Chat";
 import NotificationBadge from "./Notification";
+import UpdateCard from "./UpdateCard";
 
 function App() {
     // const professionalId = '64b6b17e5d535393c0a3f4d0';
@@ -37,6 +38,7 @@ function App() {
                 <Router>
                     <Routes>
                         <Route path="/subscribe" element={<BraintreePayment />} />
+                        <Route path="/update-card" element={<UpdateCard />} />
                         <Route path="/notification" element={<NotificationBadge/>} />
                         <Route path="/cancel" element={<CancelSubscription />} />
                         <Route path="/update" element={<UpdateSubscription />} />
